@@ -2,16 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require('path');
-const mysql= require("mysql");
-
-const dotenv = require("dotenv");
-
-dotenv.config({ path: './.env' });
-
 
 const app = express();
-
-
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -30,18 +22,13 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to greg serv" });
 });
 
-const db = mysql.createConnection({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password:  process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE
+const db = require("./models");
+
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync Db');
 });
 
-db.connect( (error) => {
-  if (error)
-    console.log(error);
-  console.log("mysql is connected...")
-} )
+require('./routes/auth.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
