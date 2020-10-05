@@ -8,6 +8,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     password: {
       type: Sequelize.STRING
+    },
+    poste: {
+      type: Sequelize.STRING
+    },
+    imgUrl: {
+      type: Sequelize.STRING
     }
   });
 

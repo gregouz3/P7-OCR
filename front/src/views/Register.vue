@@ -1,12 +1,10 @@
 <template>
   <div class="col-md-12">
     <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+         
       <form name="form" @submit.prevent="handleRegister">
+    
+
         <div v-if="!successful">
           <div class="form-group">
             <label for="username">Username</label>
@@ -22,6 +20,7 @@
               class="alert-danger"
             >{{errors.first('username')}}</div>
           </div>
+  
           <div class="form-group">
             <label for="email">Email</label>
             <input
@@ -35,6 +34,16 @@
               v-if="submitted && errors.has('email')"
               class="alert-danger"
             >{{errors.first('email')}}</div>
+          </div>
+          <div class="form-group">
+            <label for="poste">Job</label>
+            <input
+              v-model="user.poste"
+              v-validate="'min:0|max:30'"
+              type="text"
+              class="form-control"
+              name="poste"
+            />
           </div>
           <div class="form-group">
             <label for="password">Password</label>
@@ -51,7 +60,7 @@
             >{{errors.first('password')}}</div>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary btn-block">Sign Up</button>
+            <button  class="btn btn-primary btn-block">Sign Up</button>
           </div>
         </div>
       </form>
@@ -69,15 +78,21 @@
 import User from '../models/user';
 
 export default {
+  
   name: 'Register',
   data() {
     return {
-      user: new User('', '', ''),
+      user: new User('', '', '', '', ''),
       submitted: false,
       successful: false,
-      message: ''
+      message: '',
+   
+
+      
     };
+    
   },
+
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
@@ -109,12 +124,43 @@ export default {
           );
         }
       });
+    },
+    onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    removeImage: function () {
+      this.image = '';
     }
+  
   }
-};
+}
 </script>
 
 <style scoped>
+#appp {
+  text-align: center;
+}
+img {
+  width: 30%;
+  margin: auto;
+  display: block;
+  margin-bottom: 10px;
+}
+button {
+  
+}
 label {
   display: block;
   margin-top: 10px;
@@ -146,5 +192,9 @@ label {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+
 }
+
+
+
 </style>

@@ -10,13 +10,13 @@ exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    poste: req.body.poste,
+    password: bcrypt.hashSync(req.body.password, 8),
+    imgUrl: req.body.imgUrl
   })
   if (User) {
         res.send({ message: "User was registered successfully!" })
-  } else {
-     res.send({ message: "User was registered successfully!" });
-  }
+  } 
 };
 
 exports.signin = (req, res) => {
@@ -51,7 +51,10 @@ exports.signin = (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
+          poste: user.poste,
+          imgUrl: user.imgUrl,
           accessToken: token
+
         });
     })
     .catch(err => {

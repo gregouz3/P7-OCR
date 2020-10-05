@@ -22,6 +22,21 @@ export const router = new Router({
       name: 'profile',
       // lazy-loaded
       component: () => import('./views/Profile.vue')
+    },
+    {
+      path: '/posts',
+      name: 'posts',
+      component: () => import("./views/PostsList.vue")
+    },
+    {
+      path: "/posts/:id",
+      name: "post-details",
+      component: () => import("./views/Post.vue")
+    },
+    {
+      path: "/add",
+      name: "add",
+      component: () => import("./views/AddPost.vue")
     }
   ]
 });

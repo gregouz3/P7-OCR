@@ -20,7 +20,14 @@
           </router-link>
         </li>
       </ul>
-     
+      <ul v-if="currentUser" class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a href="/posts" class="nav-link">Posts</a>
+        </li>
+        <li class="nav-item">
+            <a href="/add" class="nav-link">Add post</a>
+        </li>
+      </ul>
        <ul v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/profile" class="nav-link">
