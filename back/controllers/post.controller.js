@@ -1,6 +1,7 @@
+const fs = require("fs");
+
 const db = require("../models");
 const Post = db.posts;
-const User = db.user;
 
 const Op = db.Sequelize.Op;
 
@@ -14,25 +15,30 @@ exports.create = (req, res) => {
     return;
   }
 
+
+ 
   // Create a Tutorial
   const post = {
+    userId: req.body.userId,
     title: req.body.title,
     description: req.body.description,
     author: req.body.author,
-    published: req.body.published ? req.body.published : false
-  };
+    published: req.body.published ? req.body.published : false,
+    imgUrl: req.body.imgUrl,
+   
+  }
 
   // Save Tutorial in the database
   Post.create(post)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Post."
-      });
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while creating the Post."
     });
+  });
 };
 
 // Retrieve all Tutorials from the database.
@@ -63,13 +69,13 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
+        message: "Error retrieving Post with id=" + id
       });
     });
   
 };
 
-// Update a Tutorial by the id in the request
+// Update a Post by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -151,3 +157,4 @@ exports.findAllPublished = (req, res) => {
   });
   
 };
+

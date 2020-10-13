@@ -24,9 +24,14 @@
         <li class="nav-item">
             <a href="/posts" class="nav-link">Posts</a>
         </li>
+        
         <li class="nav-item">
             <a href="/add" class="nav-link">Add post</a>
         </li>
+        
+        
+      
+         
       </ul>
        <ul v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
@@ -46,11 +51,13 @@
 
     <div class="container">
       <router-view />
+
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   computed: {
     currentUser() {

@@ -11,10 +11,8 @@ module.exports = (sequelize, Sequelize) => {
     },
     poste: {
       type: Sequelize.STRING
-    },
-    imgUrl: {
-      type: Sequelize.STRING
     }
+  
   });
 
   return User;

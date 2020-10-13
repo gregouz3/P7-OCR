@@ -1,17 +1,26 @@
 module.exports = (sequelize, Sequelize) => {
   const Post = sequelize.define("posts", {
+
+
     title: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     description: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     published: {
-      type: Sequelize.BOOLEAN
+      type: Sequelize.BOOLEAN,
     },
     author: {
-      type: Sequelize.STRING
-    }
+      type: Sequelize.STRING,
+    },
+    imgUrl: {
+      type: Sequelize.STRING,
+    },
+   
+
+    
+
   });
 
   return Post;

@@ -9,10 +9,13 @@ class PostDataService {
     return http.get(`/posts/${id}`);
   }
 
+
   create(data) {
     return http.post("/posts", data);
   }
-
+s
+ 
+  
   update(id, data) {
     return http.put(`/posts/${id}`, data);
   }
@@ -23,10 +26,6 @@ class PostDataService {
 
   deleteAll() {
     return http.delete(`/posts`);
-  }
-
-  findByTitle(title) {
-    return http.get(`/posts?title=${title}`);
   }
 }
 

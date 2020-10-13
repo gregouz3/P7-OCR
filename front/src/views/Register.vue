@@ -158,9 +158,7 @@ img {
   display: block;
   margin-bottom: 10px;
 }
-button {
-  
-}
+
 label {
   display: block;
   margin-top: 10px;
