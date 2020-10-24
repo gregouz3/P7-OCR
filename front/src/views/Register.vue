@@ -35,16 +35,7 @@
               class="alert-danger"
             >{{errors.first('email')}}</div>
           </div>
-          <div class="form-group">
-            <label for="poste">Job</label>
-            <input
-              v-model="user.poste"
-              v-validate="'min:0|max:30'"
-              type="text"
-              class="form-control"
-              name="poste"
-            />
-          </div>
+          
           <div class="form-group">
             <label for="password">Password</label>
             <input
@@ -86,9 +77,6 @@ export default {
       submitted: false,
       successful: false,
       message: '',
-   
-
-      
     };
     
   },
@@ -124,24 +112,6 @@ export default {
           );
         }
       });
-    },
-    onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length)
-        return;
-      this.createImage(files[0]);
-    },
-    createImage(file) {
-      var reader = new FileReader();
-      var vm = this;
-
-      reader.onload = (e) => {
-        vm.image = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
-    removeImage: function () {
-      this.image = '';
     }
   
   }

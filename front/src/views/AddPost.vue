@@ -1,12 +1,13 @@
 <template>
 
   <div class="submit-form">
+    <!--
       <div v-if="progressInfos">
       <div class="mb-2"
         v-for="(progressInfo, index) in progressInfos"
         :key="index"
       >
-        <span>{{progressInfo.fileName}}</span>
+        <span>{{progressInfo.fileName}}</span> 
         <div class="progress">
           <div class="progress-bar progress-bar-info"
             role="progressbar"
@@ -19,7 +20,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
     <div v-if="!submitted">
       <div class="form-group">
         <label for="title">Title</label>
@@ -34,13 +35,13 @@
 
       <div class="form-group">
         <label for="description">Description</label>
-        <input
+        <textarea
           class="form-control"
           id="description"
           v-model="post.description"
           name="description"
-        />
-      </div>
+        ></textarea>
+      </div><!--
        <div>
        
 
@@ -69,7 +70,7 @@
       @click="uploadFiles"
     >
       Upload
-    </button>
+    </button>-->
       <button @click="pickFilee" class="btn btn-success">Submit</button>
     </div>
      <div v-else>
@@ -96,11 +97,11 @@ export default {
   data() {
     return {
       post: {
-        id: null,
+        id: "",
+        userId: "",
         title: "",
         description: "",
         author:"",
-        published: false,
         imgUrl: ""
       
       },
@@ -167,9 +168,9 @@ export default {
     },
      
 
-      pickFilee () {
-        
+      pickFilee() {
           var data = {
+            userId: this.$store.state.auth.user.id,
             title: this.post.title,
             description: this.post.description,
             author:  this.$store.state.auth.user.username,
@@ -179,8 +180,8 @@ export default {
            PostDataService.create(data)
         .then(response => {
           this.post.id = response.data.id;
-
-          console.log(response.data);
+          console.log(  response.data);
+          console.log(response.data.id);
           this.submitted = true;
         })
         .catch(e => {

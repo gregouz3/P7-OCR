@@ -26,9 +26,11 @@ class AuthService {
     return axios.post(API_URL + 'signup', {
       username: user.username,
       email: user.email,
-      poste: user.poste,
       password: user.password
     });
+  }
+  deleteAccount(id) {
+    return axios.delete(API_URL + `${id}`)
   }
 }
 

@@ -8,9 +8,6 @@ module.exports = (sequelize, Sequelize) => {
     },
     password: {
       type: Sequelize.STRING
-    },
-    poste: {
-      type: Sequelize.STRING
     }
   
   });

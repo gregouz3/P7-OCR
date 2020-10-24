@@ -2,38 +2,24 @@ const fs = require("fs");
 
 const db = require("../models");
 const Post = db.posts;
+const Com = db.coms;
 const User = db.users;
 
 const Op = db.Sequelize.Op;
 
+exports.createComment = (req, res) => { 
 
-// Create and Save a new Tutorial
-exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
-
-
- 
-  // Create a Tutorial
-  const post = {
+  const com = {
+    postId: req.params.id,
     userId: req.body.userId,
-    title: req.body.title,
-    description: req.body.description,
+    content: req.body.content,
     author: req.body.author,
-  
-    imgUrl: req.body.imgUrl,
   }
 
   // Save Tutorial in the database
-  Post.create(post)
+  Com.createComment(com)
   .then(data => {
     res.send(data);
-
   })
   .catch(err => {
     res.status(500).send({
@@ -43,29 +29,26 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Tutorials from the database.
-exports.findAll = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  Post.findAll({ where: condition })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
+exports.getComments = (req, res) => {
+  let postId = req.params.id;
+  var condition = postId ? { postId: { [Op.like]: `%${postId}%` } } : null;
+  Com.findAll({ where: condition })
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving tutorials."
     });
-  
-};
+  });
+}
 
-// Find a single Tutorial with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Post.findByPk(id)
+  Com.findByPk(id)
     .then(data => {
       res.send(data);
     })
@@ -81,7 +64,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Post.update(req.body, {
+  Com.update(req.body, {
     where: { id: id }
   })
     .then(num => {
@@ -107,7 +90,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Post.destroy({
+  Com.destroy({
     where: { id: id }
   })
     .then(num => {
@@ -128,14 +111,13 @@ exports.delete = (req, res) => {
     });
 };
 
-// Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-  Post.destroy({
+  Com.destroy({
     where: {},
     truncate: false
   })
     .then(nums => {
-      res.send({ message: `${nums} posts were deleted successfully!` });
+      res.send({ message: `${nums} coms were deleted successfully!` });
     })
     .catch(err => {
       res.status(500).send({
@@ -144,5 +126,3 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
-
-

@@ -28,6 +28,8 @@ db.sequelize.sync({force: true}).then(() => {
 });
 
 require('./routes/auth.routes')(app);
+require('./routes/com.routes')(app);
+
 require('./routes/post.routes')(app);
 require('./routes/file.routes')(app);
 

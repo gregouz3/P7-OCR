@@ -8,22 +8,19 @@
       <strong>Email:</strong>
       {{currentUser.email}}
     </p>
-    <p>
-      <strong>Poste:</strong>
-      {{currentUser.poste}}
-    </p>
+  
     </header>
   <div>
     <h4> Bienvenue sur le réseau interne de groupamia !</h4>
   </div>
-     
-
-   
+   <div class="d-flex justify-space-between">
+      <button class="btn" @click="rmProfile">Supprimer</button>
+  </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import AuthService from "../services/auth.service";
 
 export default {
       name: 'Profile',
@@ -35,28 +32,26 @@ export default {
  
   data() {
     return {
-      selectedFile: "",
+
     };
   },
    methods: {
-    onFileChange(e) {
-      const selectedFile = e.target.files[0]; // accessing file
-      this.selectedFile = selectedFile;
-    },
-    onUploadFile() {
-      const formData = new FormData();
-      formData.append("file", this.selectedFile);  // appending file
 
-     // sending file to the backend
-      axios
-        .post("http://localhost:8080/upload", formData)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
+     rmProfile() {
+       AuthService.deleteAccount(this.$store.state.auth.user.id)
+          .then(response => {
+          console.log(response.data);
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
+          })
+          
+        .catch(e => {
+          console.log(e);
         });
-    },
+       
+     }
+ 
+    }
 
-}}
+}
 </script>

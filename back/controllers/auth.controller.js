@@ -1,6 +1,8 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
+const Post = db.posts;
+const Com = db.coms;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -10,9 +12,7 @@ exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
-    poste: req.body.poste,
-    password: bcrypt.hashSync(req.body.password, 8),
-    imgUrl: req.body.imgUrl
+    password: bcrypt.hashSync(req.body.password, 8)
   })
   if (User) {
         res.send({ message: "User was registered successfully!" })
@@ -51,13 +51,45 @@ exports.signin = (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
-          poste: user.poste,
-          imgUrl: user.imgUrl,
           accessToken: token
-
         });
     })
     .catch(err => {
       res.status(500).send({ message: err.message });
+    });
+};
+
+
+
+exports.deleteAccount = (req, res) => {
+  const id = req.params.id;
+
+  User.destroy({
+    where: { id: id}
+    
+  })
+  Post.destroy({
+    where: { userId: id}
+  })
+  
+    Com.destroy({
+     where : {userId: id}
+      
+    })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "rm ok"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete ${id}. `
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Tutorial with id=" + id
+      });
     });
 };

@@ -28,6 +28,16 @@ export const router = new Router({
       name: 'posts',
       component: () => import("./views/PostsList.vue")
     },
+    {
+      path: "/posts/:id",
+      name: "post-details",
+      component: () => import("./views/Post.vue")
+    },
+    {
+      path: "/posts/:id/comments/:id",
+      name: "com-details",
+      component: () => import("./views/Com.vue")
+    },
 
    
     

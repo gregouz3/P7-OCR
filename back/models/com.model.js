@@ -1,30 +1,30 @@
-
 module.exports = (sequelize, Sequelize) => {
-
   User = require("../models/user.model.js")(sequelize, Sequelize);
-  const Post = sequelize.define("posts", {
 
+  Post = require("../models/post.model.js")(sequelize, Sequelize);
+  const Com = sequelize.define("coms", {
     userId: {
       type: Sequelize.INTEGER,
     },
-    title: {
-      type: Sequelize.STRING,
+    postId: {
+      type: Sequelize.INTEGER,
+      references : {
+        model: Post,
+        key: 'id'
+      }
     },
-    description: {
+    content: {
       type: Sequelize.STRING,
     },
    
     author: {
       type: Sequelize.STRING,
-    },
-    imgUrl: {
-      type: Sequelize.STRING,
-    },
+    }
    
 
     
 
   });
 
-  return Post;
+  return Com;
 };
