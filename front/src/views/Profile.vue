@@ -8,19 +8,35 @@
       <strong>Email:</strong>
       {{currentUser.email}}
     </p>
-  
+   
     </header>
   <div>
     <h4> Bienvenue sur le réseau interne de groupamia !</h4>
   </div>
-   <div class="d-flex justify-space-between">
-      <button class="btn" @click="rmProfile">Supprimer</button>
+     
+   <button v-if="currentUser.isAdmin === 0" class="m-3 btn btn-sm btn-danger" @click="removeUser">
+        Remove your profile      </button>
+     <div v-if="currentUser.isAdmin === 1">
+      list Users
+      <div class="posts"
+          v-for="(user, index) in users"
+          :key="index"
+>
+          <h3  class="post_titre" v-if="user.username !== 'admin'">
+          {{ user.username }},  <strong class="ml-3"> by {{ user.email}}</strong>
+          <span> {{ user.id}}</span>
+          <button class="m-3 btn btn-sm btn-danger" @click="removeUsers(user.id)">
+        Remove your profile      </button>
+          </h3>
+       
+      </div>
   </div>
   </div>
+
 </template>
 
 <script>
-import AuthService from "../services/auth.service";
+import Auth from "../services/auth.service"
 
 export default {
       name: 'Profile',
@@ -33,25 +49,38 @@ export default {
   data() {
     return {
 
+      users: []
     };
   },
    methods: {
+    retrieveUsers() {
 
-     rmProfile() {
-       AuthService.deleteAccount(this.$store.state.auth.user.id)
-          .then(response => {
+      Auth.findAll()
+        .then(response => {
+          this.users= response.data;
           console.log(response.data);
-            this.$store.dispatch('auth/logout');
-            this.$router.push('/login');
-          })
-          
+        })
         .catch(e => {
           console.log(e);
         });
-       
-     }
- 
-    }
+    },
+     removeUser(){
+      Auth.deleteAccount(this.$store.state.auth.user.id);
+      localStorage.removeItem('user');
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
 
+     },
+      removeUsers(idU){
+      Auth.deleteAccount(idU);
+      window.location.reload();
+
+     }
+   },
+     mounted() {
+    this.retrieveUsers();
+  },
+
+   
 }
 </script>

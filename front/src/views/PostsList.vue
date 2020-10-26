@@ -27,11 +27,8 @@
           <p class="post_description">
           {{ post.description }}
           </p>
-          <!--<div 
-             class="imagePreviewWrapper"
-          :style=" 'background-image': `url(${file[0]})` ">
-          </div>-->
-          <div v-if="post.userId === currentUser.id">
+         
+          <div v-if="post.userId === currentUser.id || currentUser.isAdmin === 1">
            <a class="badge badge-warning"
           :href="'/posts/' + post.id"
         >
@@ -48,7 +45,7 @@
               <div class="posts">
                
                 {{comment.content}} , by  <strong>{{comment.author}}</strong>
-                <div v-if="comment.userId === currentUser.id">
+                <div v-if="comment.userId === currentUser.id  ||currentUser.isAdmin === 1">
                   <a class="badge badge-warning"
           :href="'/posts/' + post.id + '/comments/' + comment.id"
                   >
@@ -74,7 +71,7 @@
         </div>
        
     </div>
-     <button class="m-3 btn btn-sm btn-danger" @click="removeAll">
+     <button v-if="currentUser.isAdmin === 1" class="m-3 btn btn-sm btn-danger" @click="removeAll">
         Remove All
       </button>
     
@@ -88,7 +85,6 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
-import UploadService from "../services/uploadFileService"; 
 
 export default {
   name: "posts-list",
@@ -108,7 +104,6 @@ export default {
                 content:"",
                 author: ""
             },
-      dataComS: "",
       form: true,
 
 
@@ -144,11 +139,9 @@ export default {
             userId:  this.$store.state.auth.user.id
           };
        
-           PostDataService.createc(pId, data)
+           PostDataService.createComment(pId, data)
         .then(response => {
           this.afficheFrmCm=false;
-
-
 
           console.log(response.data);
         })
@@ -181,17 +174,7 @@ export default {
           console.log(e);
         });
     },
-    retrieveFile() {
-
-      UploadService.getFiles() 
-        .then(response => {
-          this.file = response.data;
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-      },
+   
        
 
     refreshList() {
@@ -224,7 +207,6 @@ export default {
   },
   mounted() {
     this.retrievePosts();
-   // this.retrieveFile();
   },
   computed: {
     currentUser() {

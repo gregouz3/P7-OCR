@@ -16,10 +16,8 @@ module.exports = (sequelize, Sequelize) => {
    
     author: {
       type: Sequelize.STRING,
-    },
-    imgUrl: {
-      type: Sequelize.STRING,
-    },
+    }
+
    
 
     

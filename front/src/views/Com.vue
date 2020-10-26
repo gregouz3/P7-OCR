@@ -3,17 +3,12 @@
     <h4>Com</h4>
     <form>
       <div class="form-group">
-        <label for="title">Title</label>
+        <label for="title">Content</label>
         <input type="text" class="form-control" id="title"
-          v-model="currentCom.title"
+          v-model="currentCom.content"
         />
       </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" class="form-control" id="description"
-          v-model="currentCom.description"
-        />
-      </div>
+
     </form>
 
     <button class="badge badge-danger mr-2"
@@ -37,7 +32,7 @@
 </template>
 
 <script>
-import ComDataService from "../services/ComDataService";
+import PostDataService from "../services/PostDataService";
 
 export default {
   name: "upCom",
@@ -49,7 +44,7 @@ export default {
   },
   methods: {
     getCom(id) {
-      ComDataService.get(id)
+      PostDataService.getComments(id)
         .then(response => {
           this.currentCom = response.data;
           console.log(response.data);
@@ -60,7 +55,7 @@ export default {
     },
 
     updateCom() {
-      ComDataService.update(this.currentCom.id, this.currentCom)
+      PostDataService.updateC(this.currentCom.id, this.currentCom)
         .then(response => {
           console.log(response.data);
           this.message = 'The Com was updated successfully!';
@@ -73,7 +68,7 @@ export default {
     },
 
     deleteCom() {
-      ComDataService.delete(this.currentCom.id)
+      PostDataService.deleteC(this.currentCom.id)
         .then(response => {
           console.log(response.data);
           this.$router.push({ name: "posts" });

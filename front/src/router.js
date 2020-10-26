@@ -39,6 +39,8 @@ export const router = new Router({
       component: () => import("./views/Com.vue")
     },
 
+
+
    
     
    

@@ -12,8 +12,10 @@ exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: bcrypt.hashSync(req.body.password, 8),
+    isAdmin: 0
   })
+ 
   if (User) {
         res.send({ message: "User was registered successfully!" })
   } 
@@ -51,7 +53,8 @@ exports.signin = (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
-          accessToken: token
+          accessToken: token,
+          isAdmin: user.isAdmin
         });
     })
     .catch(err => {
@@ -92,4 +95,21 @@ exports.deleteAccount = (req, res) => {
         message: "Could not delete Tutorial with id=" + id
       });
     });
+};
+
+exports.findAll = (req, res) => {
+  const username = req.query.username;
+  var condition = username? { username: { [Op.like]: `%${username}%` } } : null;
+
+  User.findAll({ where: condition })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
+    });
+  
 };

@@ -2,36 +2,35 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require('path');
-
 const app = express();
+var bcrypt = require("bcryptjs");
 
+const db = require("./models");
+const User = db.user;
 var corsOptions = {
   origin: "http://localhost:8081"
 };
 
 app.use(cors(corsOptions));
-global.__basedir = __dirname;
-console.log(__dirname);
-
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
-
 // parse requests of content-type - application/x-www-form-urlencoded
-
 app.use(express.urlencoded({ extended: true }));
-
-const db = require("./models");
 
 db.sequelize.sync({force: true}).then(() => {
   console.log('Resync Db...');
+  User.create({
+    username: 'admin',
+    email: 'admin@admin.com',
+    password: bcrypt.hashSync('isAdmin', 8),
+    isAdmin: 1
+  })
+  
 });
 
 require('./routes/auth.routes')(app);
-require('./routes/com.routes')(app);
-
 require('./routes/post.routes')(app);
-require('./routes/file.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

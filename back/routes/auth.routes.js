@@ -21,5 +21,5 @@ module.exports = function(app) {
   app.post("/api/auth/signin", controller.signin);
 
   app.delete('/api/auth/:id',  controller.deleteAccount);
-
+  app.get('/api/auth/', controller.findAll);
 };

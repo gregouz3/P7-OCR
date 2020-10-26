@@ -22,6 +22,8 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.posts = require("../models/post.model.js")(sequelize, Sequelize);
 db.coms = require("../models/com.model.js")(sequelize, Sequelize);
 
+
+
 db.posts.hasOne(db.coms, {
   onDelete: 
     'CASCADE',
