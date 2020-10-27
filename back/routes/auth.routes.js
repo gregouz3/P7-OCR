@@ -19,7 +19,10 @@ module.exports = function(app) {
   );
 
   app.post("/api/auth/signin", controller.signin);
-
+  app.get("/api/auth/", controller.findAll);
+  app.get('/api/auth/:id', controller.findOne)
   app.delete('/api/auth/:id',  controller.deleteAccount);
-  app.get('/api/auth/', controller.findAll);
+  app.delete('/api/auth/',  controller.deleteAll);
+  app.put('/api/auth/:id',  controller.mvAccount);
+
 };

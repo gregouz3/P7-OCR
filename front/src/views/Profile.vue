@@ -13,11 +13,17 @@
   <div>
     <h4> Bienvenue sur le réseau interne de groupamia !</h4>
   </div>
+    <a class="m-3 btn btn-sm btn-danger" :href="'/profile/'+ currentUser.id">
+        mv your profile      </a>
+       
      
    <button v-if="currentUser.isAdmin === 0" class="m-3 btn btn-sm btn-danger" @click="removeUser">
         Remove your profile      </button>
      <div v-if="currentUser.isAdmin === 1">
       list Users
+       <button v-if="currentUser.isAdmin === 1" class="m-3 btn btn-sm btn-danger" @click="removeAll">
+        Remove All
+      </button>
       <div class="posts"
           v-for="(user, index) in users"
           :key="index"
@@ -28,6 +34,9 @@
           <button class="m-3 btn btn-sm btn-danger" @click="removeUsers(user.id)">
         Remove your profile      </button>
           </h3>
+          
+            <a class="m-3 btn btn-sm btn-danger" :href="'/profile/'+ user.id">
+        mv your profile      </a>
        
       </div>
   </div>
@@ -75,10 +84,22 @@ export default {
       Auth.deleteAccount(idU);
       window.location.reload();
 
-     }
+     },
+       removeAll() {
+      Auth.deleteAll()
+        .then(response => {
+          console.log(response.data);
+      window.location.reload();
+          
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
    },
      mounted() {
     this.retrieveUsers();
+    
   },
 
    

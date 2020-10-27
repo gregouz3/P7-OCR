@@ -97,6 +97,44 @@ exports.deleteAccount = (req, res) => {
     });
 };
 
+exports.mvAccount = (req, res) => {
+  const id = req.params.id;
+  User.update(req.body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Tutorial was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Tutorial with id=" + id
+      });
+    });
+  
+}
+
+exports.findOne = (req, res) => {
+  const id = req.params.id;
+
+  User.findByPk(id)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Post with id=" + id
+      });
+    });
+  
+};
 exports.findAll = (req, res) => {
   const username = req.query.username;
   var condition = username? { username: { [Op.like]: `%${username}%` } } : null;
@@ -112,4 +150,29 @@ exports.findAll = (req, res) => {
       });
     });
   
+};
+
+exports.deleteAll = (req, res) => {
+  User.destroy({
+    where: {isAdmin : 0},
+    truncate: false
+  })
+
+  Post.destroy({
+    where: { }
+  })
+  
+    Com.destroy({
+     where : {}
+      
+    })
+    .then(nums => {
+      res.send({ message: `${nums} posts were deleted successfully!` });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while removing all tutorials."
+      });
+    });
 };

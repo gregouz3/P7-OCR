@@ -22,7 +22,8 @@
           @click="setActivePost(post, index)">
 
           <h3  class="post_titre">
-          {{ post.title }},  <strong class="ml-3"> by {{ post.author}}</strong>
+          {{ post.title }}, 
+          <p> <a :href="'/profile/' + post.userId"> <strong class="ml-3"> by {{ post.author}}</strong></a></p>
           </h3>
           <p class="post_description">
           {{ post.description }}
@@ -44,7 +45,9 @@
             <div class="post_com"  v-for="(comment, index) in comments" v-bind:key="index" outlined>    
               <div class="posts">
                
-                {{comment.content}} , by  <strong>{{comment.author}}</strong>
+                {{comment.content}} , by  <strong>
+                   <a :href="'/profile/' + comment.userId">{{comment.author}}</a></strong>
+               
                 <div v-if="comment.userId === currentUser.id  ||currentUser.isAdmin === 1">
                   <a class="badge badge-warning"
           :href="'/posts/' + post.id + '/comments/' + comment.id"

@@ -33,8 +33,17 @@ class AuthService {
   deleteAccount(id) {
     return axios.delete(API_URL + `${id}`)
   }
+  deleteAll() {
+    return  axios.delete(API_URL)
+  }
+  mvAccount(id, data) {
+    return axios.put(API_URL + `${id}`, data)
+  }
   findAll() {
     return axios.get(API_URL )
+  }
+  findOne(id) {
+    return axios.get(API_URL + `${id}`)
   }
  
 }
