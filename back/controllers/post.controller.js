@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { error } = require("jquery");
 
 const db = require("../models");
 const Post = db.posts;
