@@ -1,8 +1,8 @@
 <template>
  <div class="col-md-12">
-    <div class="card card-container">
+    <div class="card card-container mt-2">
   <div v-if="currentUser" class="edit-form">
-    <h4>Profile</h4>
+    <h4 class="mt-3">Informations du profile:</h4>
       <form name="form" @submit.prevent="handleRegister">
         <div v-if="currentUser.id === uId || isAd === 1">
           
@@ -39,19 +39,23 @@
           
 
 
-          <div  class="form-group">
-         <button type="submit" class="badge badge-success"
+          <div  class="form-group d-flex justify-content-center">
+         <button type="submit" class="btn form-control "
           @click="mvAccount(currentUser.id)"
-        >
-          Update
+        > <span class="log">Update</span>
         </button></div>
       </div>
       </form>
   </div>
-  
-            <p>
-            {{currentUser.email}},
-           {{currentUser.username}} </p>
+  <div class="d-flex flex-column justify-content-center mt-5 ">
+         <div class="d-flex ml-5">
+        <strong>Username  :</strong> <p class=" user ml-3"> {{currentUser.username}}</p>
+      </div>
+      <div class="d-flex ml-5 user "><a title="Contacter par email" :href="'mailto:'+ currentUser.email">
+        <strong>Email  :</strong>{{currentUser.email}}</a>
+      </div>
+  </div>
+       
     </div>
  </div>
 </template>
@@ -113,10 +117,17 @@ export default {
         .then(response => {
           console.log(response.data);
           this.message = 'The User was updated successfully!';
-          localStorage.removeItem('user');
+          if (this.isAd === 1) {
+            this.$router.push('/profile');
+          }
+          else {
+              localStorage.removeItem('user');
           this.$store.dispatch('auth/logout');
 
           this.$router.push('/login');
+          }
+
+        
 
         })
         .catch(e => {
@@ -144,5 +155,27 @@ export default {
 .edit-form {
   max-width: 300px;
   margin: auto;
+}
+.user {
+  overflow-x: scroll;
+}
+  .log {
+  color: #fff!important;
+}
+
+.btn {
+ background-color: #343a40!important;
+}
+.btn:hover {
+  opacity: 0.6;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover{
+  opacity: 0.6;
+  color: black;
 }
 </style>

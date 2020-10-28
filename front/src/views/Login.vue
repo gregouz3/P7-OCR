@@ -38,9 +38,9 @@
           >Password is required!</div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
+          <button class="btn  btn-block" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Login</span>
+            <span class="log">Login</span>
           </button>
         </div>
         <div class="form-group">
@@ -112,6 +112,18 @@ label {
   max-width: 350px !important;
   padding: 40px 40px;
 }
+
+.log {
+  color: #fff!important;
+}
+
+.btn {
+ background-color: #343a40!important;
+}
+.btn:hover {
+  opacity: 0.6;
+}
+
 
 .card {
   background-color: #f7f7f7;

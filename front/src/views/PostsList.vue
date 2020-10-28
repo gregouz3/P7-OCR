@@ -1,88 +1,96 @@
 <template>
-    <div class="list row">
-       <div class="col-md-8">
+    <div class="list row" v-if="posts.length !== 0">
+       <div class="col-md-12 mt-2 ml-2 ">
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Search by title"
           v-model="title"/>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button"
+          <button class="btn " type="button"
             @click="searchTitle"
           >
-            Search
+            <span class="log">Rechercher</span>
           </button>
         </div>
       </div>
     </div>
     
-    <div class="col-md-12">
+    <div class="col-md-12" >
 
         <div class="posts"
           v-for="(post, index) in posts"
           :key="index"
           @click="setActivePost(post, index)">
-
-          <h3  class="post_titre">
-          {{ post.title }}, 
-          <p> <a :href="'/profile/' + post.userId"> <strong class="ml-3"> by {{ post.author}}</strong></a></p>
-          </h3>
-          <p class="post_description">
-          {{ post.description }}
-          </p>
+          <div class="d-flex jumbotron flex-column">
+            <div class="d-flex align-items-center flex-column">
+                 <h3  class="post_titre ">
+               Titre : 
+          {{ post.title }}, </h3>
+          <p title="Voir le profil" class="post_titre mt-1 mb-2 ml-2"> <a class="post_titre " :href="'/profile/' + post.userId"> 
+           par {{ post.author}}</a></p>
+         
+            </div>
+            
+          <div class="post_title">
+           <h3>Description :</h3>
+          <p class="desc d-flex justify-content-center">{{ post.description }}</p>
+          </div>
          
           <div v-if="post.userId === currentUser.id || currentUser.isAdmin === 1">
-           <a class="badge badge-warning"
+           <a class="btn d-flex justify-content-center"
           :href="'/posts/' + post.id"
         >
-          Edit
+          <span class="log">Modifier ou supprimer</span>
         </a></div>
-           <button  @click="afficheCom(post.id)" title="voir les commentaires">
-              Commentaires
+           <button  class="btn mt-3" @click="afficheCom(post.id)" title="voir les commentaires">
+              <span class="log">Voir les commentaires </span>
            </button>
-           <div>
-          
-           </div>
           <div class="com" v-if="postId === post.id">
             <div class="post_com"  v-for="(comment, index) in comments" v-bind:key="index" outlined>    
-              <div class="posts">
+              <div class="posts d-flex flex-column justify-content-center">
+                <p class="post_titre" title="Voir le profil"> 
+                    {{comment.content}}
+               , par 
+                   <a class="post_titre" :href="'/profile/' + comment.userId">{{comment.author}}</a></p>
                
-                {{comment.content}} , by  <strong>
-                   <a :href="'/profile/' + comment.userId">{{comment.author}}</a></strong>
-               
-                <div v-if="comment.userId === currentUser.id  ||currentUser.isAdmin === 1">
-                  <a class="badge badge-warning"
-          :href="'/posts/' + post.id + '/comments/' + comment.id"
-                  >
-          Edit
+                <div class=" mr" v-if="comment.userId === currentUser.id  ||currentUser.isAdmin === 1">
+                  <a class="btn d-flex justify-content-center"
+          :href="'/posts/' + post.id + '/comments/' + comment.id">
+          <span class="log" >Modifier ou supprimer</span>
         </a></div>
                 </div>
               </div>
            
             </div>
           <div class="d-flex  justify-content-center">
-          <button v-if="postId === post.id" title="commenter le post" class="" 
+          <button v-if="postId === post.id" title="commenter le post" class="btn my-2" 
            @click="afficheFormCom(post.id)">
-            Add comment
+            <span class="log">Publier un commentaire</span>
           </button></div>
-            <div  v-if="afficheFrmCm ">
-                <div  ref="form" class="form-group ma-3 d-flex  justify-content-center"  v-if="form && post.id === postId">
-                    <textarea v-model="dataCom.content"  :counter="255" label="Commentaire"  required></textarea>
+
+            <div  v-if="formCom">
+                <div  ref="form" class="form-group d-flex  justify-content-center"  v-if="form && post.id === postId">
+                    <textarea v-model="com.content"  :counter="255" label="Commentaire"  required></textarea>
                 </div>
                 <div class="d-flex justify-content-center">
-                 <button  v-if="post.id === postId" class="success ma-2" @click="sendCom(post.id)">Poster</button></div>
+                 <button  v-if="post.id === postId" class="btn ma-2" @click="sendCom(post.id)"><span class="log">Publier</span></button></div>
+             
             </div>
           
         </div>
        
     </div>
-     <button v-if="currentUser.isAdmin === 1" class="m-3 btn btn-sm btn-danger" @click="removeAll">
-        Remove All
+          </div>
+      <div class="ml-4">
+         <button v-if="currentUser.isAdmin === 1" class="m-3 btn btn-md " @click="removeAll">
+        <span class="log">Supprimer les publications</span>
       </button>
-    
-       
-
-       
+      </div>
     
     </div>
+    <div v-else>
+      <p>Aucune publication trouvée.</p>
+    </div>
+
    
 </template>
 
@@ -98,32 +106,26 @@ export default {
       currentIndex: -1,
       title: "",
       file: [],
-      afficheFrmCm: false,
+      formCom: false,
       postId: "",
       comments: [],
-      dataCom:{
+      com:{
                 id: "",
                 userId: "",
                 content:"",
                 author: ""
             },
       form: true,
-
-
-
-
-
-
     };
   },
   methods: {
      afficheFormCom(){
-            this.afficheFrmCm = true;
+            this.formCom = true;
         },
 
      afficheCom(pId){
             this.postId = pId;
-            this.afficheFrmCm = false;
+            this.formCom = false;
             PostDataService.getAllc(pId)
                 .then(response => {
                     let com = response.data;
@@ -137,16 +139,16 @@ export default {
         },
         sendCom(pId){
              var data = {
-            content: this.dataCom.content,
+            content: this.com.content,
             author:  this.$store.state.auth.user.username,
-            userId:  this.$store.state.auth.user.id
+            userId:  this.$store.state.auth.user.id,
           };
        
            PostDataService.createComment(pId, data)
         .then(response => {
-          this.afficheFrmCm=false;
-
+          this.formCom=false;
           console.log(response.data);
+          this.afficheCom(pId);
         })
         .catch(e => {
           console.log(e);
@@ -231,6 +233,30 @@ export default {
   padding: 1rem;
   
 }
+ .post_titre {
+   color: black;
+   font-size: 1.4rem;
+   overflow-x: auto;
+   overflow-y: hidden;
+   height: auto;
+
+ }
+ .post_titre a{
+   color: black;
+   text-decoration: none;
+   font-size: 1.4rem
+ }
+.post_description {
+  color: red;
+  margin: 1rem;
+  max-width: 750px;
+
+
+
+}
+.mr {
+  height: 38px;
+}
 .imagePreviewWrapper {
     width: 250px;
     height: 250px;
@@ -242,5 +268,29 @@ export default {
 }
 .postCom {
   position: relative;
+}
+.log {
+  color: #fff!important;
+  text-decoration: none;
+}
+.btn a {
+  text-decoration: none;
+}
+.desc {
+  font-size: 1.4rem;
+  font-style: italic;
+   flex-wrap: wrap;
+   display: flex;
+   overflow: auto;
+
+}
+
+.btn {
+ background-color: #343a40!important;
+ width: auto;
+
+}
+.btn:hover {
+  opacity: 0.6;
 }
 </style>

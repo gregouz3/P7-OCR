@@ -1,6 +1,6 @@
 <template>
   <div v-if="currentPost" class="edit-form">
-    <h4>Post</h4>
+    <h2 class="my-4">Publication:</h2>
     <form>
       <div class="form-group">
         <label for="title">Title</label>
@@ -15,19 +15,22 @@
         />
       </div>
     </form>
-
-    <button class="badge badge-danger mr-2"
+    <div class="b d-flex justify-content-center ">
+       <button class="btn mr-2"
       @click="deletePost"
     >
-      Delete
+      <span class="log">Supprimer</span>
     </button>
 
-    <button type="submit" class="badge badge-success"
+    <button type="submit" class="btn"
       @click="updatePost"
     >
-      Update
+      <span class="log">Modifier</span>
     </button>
+    </div>
     <p>{{ message }}</p>
+
+   
   </div>
 
   <div v-else>
@@ -64,7 +67,8 @@ export default {
         .then(response => {
           console.log(response.data);
           this.message = 'The Post was updated successfully!';
-          this.$router.push({ name: "posts" });
+          
+          this.$router.push('/posts');
 
         })
         .catch(e => {
@@ -94,5 +98,19 @@ export default {
 .edit-form {
   max-width: 300px;
   margin: auto;
+}
+ .log {
+  color: #fff!important;
+}
+
+.btn {
+ background-color: #343a40!important;
+ width: 300px;
+
+}
+.btn:hover {
+  opacity: 0.6;
+}
+.b {
 }
 </style>

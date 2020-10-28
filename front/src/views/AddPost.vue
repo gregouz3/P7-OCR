@@ -21,8 +21,8 @@
       </div>
     </div>-->
     <div v-if="!submitted">
-      <div class="form-group">
-        <label for="title">Title</label>
+      <div class="form-group mt-3">
+        <label for="title">Titre</label>
         <input
           type="text"
           class="form-control"
@@ -41,12 +41,13 @@
           name="description"
         ></textarea>
       </div>
-      
-      <button @click="pickFilee" class="btn btn-success">Submit</button>
+      <div class="d-flex flex-column justify-content-center ">
+              <button @click="pickFilee" class="btn "><span class="log" >Publier</span></button>
+      </div>
     </div>
-     <div v-else>
-      <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click=" newPost">Add</button>
+     <div v-else class="d-flex flex-column justify-content-center mt-5">
+      <h4 class="d-flex justify-content-center mb-3">Publication enregistrée </h4>
+      <button class="btn " @click=" newPost"><span class="log">Ajouter une publication</span></button>
     </div>
    
     
@@ -128,5 +129,15 @@ export default {
     margin: 0 auto 30px;
     background-size: cover;
     background-position: center center;
+}
+ .log {
+  color: #fff!important;
+}
+
+.btn {
+ background-color: #343a40!important;
+}
+.btn:hover {
+  opacity: 0.6;
 }
 </style>

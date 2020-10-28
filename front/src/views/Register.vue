@@ -51,7 +51,8 @@
             >{{errors.first('password')}}</div>
           </div>
           <div class="form-group">
-            <button  class="btn btn-primary btn-block">Sign Up</button>
+            <button  class="btn  btn-block"> <span class="log">Sign Up</span>
+               </button>
           </div>
         </div>
       </form>
@@ -162,6 +163,19 @@ label {
   border-radius: 50%;
 
 }
+
+
+.log {
+  color: #fff!important;
+}
+
+.btn {
+ background-color: #343a40!important;
+}
+.btn:hover {
+  opacity: 0.6;
+}
+
 
 
 

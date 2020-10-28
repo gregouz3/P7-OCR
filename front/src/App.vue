@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand">GROUPAMIA</a>
+
+    <a class="navbar-brand"><img src="../public/logo.png" alt="logo groupamia"/> </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -22,11 +23,11 @@
       </ul>
       <ul v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a href="/posts" class="nav-link">Posts</a>
+            <a href="/posts" class="nav-link">Publication</a>
         </li>
         
         <li class="nav-item">
-            <a href="/add" class="nav-link">Add post</a>
+            <a href="/add" class="nav-link">Publier</a>
         </li>
         
         
@@ -48,11 +49,13 @@
       </ul>
       </div>
     </nav>
-
+    
     <div class="container">
       <router-view />
 
     </div>
+     
+   
   </div>
 </template>
 
@@ -73,3 +76,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .navbar-brand img {
+      width: 200px;
+      height: 70px;
+  }
+
+.nav-item {
+  font-size: 1.3rem;
+}
+
+</style>

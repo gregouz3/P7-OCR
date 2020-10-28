@@ -1,30 +1,31 @@
 <template>
   <div v-if="currentCom" class="edit-form">
-    <h4>Com</h4>
+    <h2>Commentaire:</h2>
     <form>
       <div class="form-group">
-        <label for="title">Content</label>
+        <label for="title">Description</label>
         <input type="text" class="form-control" id="title"
           v-model="currentCom.content"
         />
       </div>
 
     </form>
+    <div class="b d-flex justify-content-center ">
 
-    <button class="badge badge-danger mr-2"
+    <button class="btn  mr-2"
       @click="deleteCom"
     >
-      Delete
+      <span class="log">Supprimer</span>
     </button>
 
-    <button type="submit" class="badge badge-success"
+ <button class="btn  mr-2"
       @click="updateCom"
     >
-      Update
+      <span class="log">Modifier</span>
     </button>
     <p>{{ message }}</p>
   </div>
-
+  </div>
   <div v-else>
     <br />
     <p>Please click on your Post...</p>
@@ -89,5 +90,17 @@ export default {
 .edit-form {
   max-width: 300px;
   margin: auto;
+}
+.log {
+  color: #fff!important;
+}
+
+.btn {
+ background-color: #343a40!important;
+ width: 300px;
+
+}
+.btn:hover {
+  opacity: 0.6;
 }
 </style>
