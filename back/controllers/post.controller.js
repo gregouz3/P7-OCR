@@ -27,7 +27,6 @@ exports.create = (req, res) => {
     description: req.body.description,
     author: req.body.author,
   
-    imgUrl: req.body.imgUrl,
   }
 
   // Save Tutorial in the database

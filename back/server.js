@@ -7,6 +7,7 @@ var bcrypt = require("bcryptjs");
 
 const db = require("./models");
 const User = db.user;
+const Post = db.posts;
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -26,6 +27,14 @@ db.sequelize.sync({force: true}).then(() => {
     password: bcrypt.hashSync('isAdmin', 8),
     isAdmin: 1
   })
+  Post.create({
+    userId: 1,
+    title: 'Premier post',
+    description: 'Bonjour à tous et à toutes ! ',
+    author: 'admin',
+  
+  });
+  
   
 });
 

@@ -158,6 +158,7 @@ export default {
 }
 .user {
   overflow-x: scroll;
+  overflow: hidden;
 }
   .log {
   color: #fff!important;

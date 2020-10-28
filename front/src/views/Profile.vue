@@ -35,12 +35,12 @@
           v-for="(user, index) in users"
           :key="index"
 >
-          <div class="user d-flex ml-4" >
-           <strong class="mr-2">Name : </strong>{{ user.username }}
+          <div class="user d-flex flex-column ml-4" >
+           <strong class="mr-2 user">Name : </strong>{{ user.username }}
           <p class="ml-2"><strong>,id : </strong>{{ user.id}}</p>
 
           </div>
-          <div class="user  d-flex ml-4">
+          <div class="user  d-flex flex-column ml-4">
            <strong class="mr-2">Email : </strong>{{ user.email}}
 
           </div>
@@ -139,10 +139,11 @@ export default {
 .user-list {
   border: 2px solid #343A40;
   margin: 1rem;
+  max-width: 480px;
 }
 
 .user {
   overflow-x: scroll;
-  overflow: hidden;
+  
 }
 </style>
