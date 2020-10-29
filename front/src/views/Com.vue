@@ -6,6 +6,7 @@
         <label for="title">Description</label>
         <input type="text" class="form-control" id="title"
           v-model="currentCom.content"
+          v-validate="'required|max:50'"
         />
       </div>
 

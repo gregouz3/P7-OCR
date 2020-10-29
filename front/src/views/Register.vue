@@ -4,7 +4,6 @@
          
       <form name="form" @submit.prevent="handleRegister">
     
-
         <div v-if="!successful">
           <div class="form-group">
             <label for="username">Username</label>

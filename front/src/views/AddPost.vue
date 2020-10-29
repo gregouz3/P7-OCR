@@ -29,6 +29,7 @@
           id="title"
           v-model="post.title"
           name="title"
+          v-validate="'required|max:30'"
         />
       </div>
 
@@ -38,6 +39,7 @@
           class="form-control"
           id="description"
           v-model="post.description"
+          v-validate="'required|max:50'"
           name="description"
         ></textarea>
       </div>

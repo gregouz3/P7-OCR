@@ -6,12 +6,15 @@
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title"
           v-model="currentPost.title"
+          v-validate="'required|max:30'"
         />
       </div>
       <div class="form-group">
         <label for="description">Description</label>
         <input type="text" class="form-control" id="description"
           v-model="currentPost.description"
+          v-validate="'required|max:50'"
+
         />
       </div>
     </form>
